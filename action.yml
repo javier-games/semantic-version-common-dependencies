@@ -1,0 +1,31 @@
+name: 'semantic-version Common Dependencies'
+description: 'Common dependencies to use the semantic-version'
+runs:
+  using: "composite"
+  steps:
+
+    - name: Cache apt Packages
+      uses: actions/cache@v3
+      env:
+        cache-name: semantic-version
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-apt-${{ env.cache-name }}-
+
+    - name: Cache npm Packages
+      uses: actions/cache@v3
+      env:
+        cache-name: semantic-version
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-npm-${{ env.cache-name }}-
+
+    - name: Install apt Dependencies
+      run: source ${GITHUB_ACTION_PATH}/apt-get-dependencies.sh
+      shell: bash
+
+    - name: Install npm Dependencies
+      run:  source ${GITHUB_ACTION_PATH}/npm-dependencies.sh
+      shell: bash
