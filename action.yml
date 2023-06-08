@@ -4,14 +4,15 @@ runs:
   using: "composite"
   steps:
 
-    - name: Cache apt Packages
-      uses: actions/cache@v3
-      env:
-        cache-name: semantic-version
-      with:
-        path: /var/cache/apt/archives
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: ${{ runner.os }}-apt-${{ env.cache-name }}-
+## /var/cache/apt/archives does not have access right.
+#    - name: Cache apt Packages
+#      uses: actions/cache@v3
+#      env:
+#        cache-name: semantic-version
+#      with:
+#        path: /var/cache/apt/archives
+#        key: ${{ runner.os }}-apt-${{ env.cache-name }}
+#        restore-keys: ${{ runner.os }}-apt-
 
     - name: Cache npm Packages
       uses: actions/cache@v3
@@ -19,8 +20,8 @@ runs:
         cache-name: semantic-version
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: ${{ runner.os }}-npm-${{ env.cache-name }}-
+        key: ${{ runner.os }}-npm-${{ env.cache-name }}
+        restore-keys: ${{ runner.os }}-npm-
 
     - name: Install apt Dependencies
       run: source ${GITHUB_ACTION_PATH}/apt-get-dependencies.sh
