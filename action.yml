@@ -23,8 +23,8 @@ runs:
         key: ${{ runner.os }}-npm-${{ env.cache-name }}
         restore-keys: ${{ runner.os }}-npm-
 
-    - name: Install apt Dependencies
-      run: source ${GITHUB_ACTION_PATH}/apt-get-dependencies.sh
+    - name: Install brew Dependencies
+      run: source ${GITHUB_ACTION_PATH}/brew-dependencies.sh
       shell: bash
 
     - name: Install npm Dependencies
